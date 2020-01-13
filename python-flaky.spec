@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	tests	# unit tests (tox required)
+%bcond_with	tests	# unit tests (many failures)
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
 
@@ -14,21 +14,23 @@ Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/flaky/
 Source0:	https://files.pythonhosted.org/packages/source/f/flaky/flaky-%{version}.tar.gz
 # Source0-md5:	7427c11cd74e8851f1d7bf2690b646b5
+Patch0:		%{name}-mock.patch
 URL:		https://pypi.org/project/flaky/
 %if %{with python2}
 BuildRequires:	python-modules >= 1:2.7
 BuildRequires:	python-setuptools
 %if %{with tests}
+BuildRequires:	python-genty
+BuildRequires:	python-mock
 BuildRequires:	python-pytest
-BuildRequires:	python-tox
 %endif
 %endif
 %if %{with python3}
 BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-setuptools
 %if %{with tests}
+BuildRequires:	python3-genty
 BuildRequires:	python3-pytest
-BuildRequires:	python3-tox
 %endif
 %endif
 BuildRequires:	rpm-pythonprov
@@ -81,14 +83,24 @@ testów lub oznaczania ich @skip, można je automatycznie ponowić.
 
 %prep
 %setup -q -n flaky-%{version}
+%patch0 -p1
 
 %build
 %if %{with python2}
-%py_build %{?with_tests:test}
+%py_build
+
+%if %{with tests}
+LC_ALL=C.UTF-8 \
+%{__python} -m unittest discover -s test
+%endif
 %endif
 
 %if %{with python3}
-%py3_build %{?with_tests:test}
+%py3_build
+
+%if %{with tests}
+%{__python3} -m unittest discover -s test
+%endif
 %endif
 
 %install
