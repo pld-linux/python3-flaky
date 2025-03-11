@@ -6,7 +6,7 @@ Summary:	Plugin for nose or pytest that automatically reruns flaky tests
 Summary(pl.UTF-8):	Wtyczka dla nose lub pytesta automatycznie uruchamiająca ponownie niepewne testy
 Name:		python3-flaky
 Version:	3.8.1
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/flaky/
