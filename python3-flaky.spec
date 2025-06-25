@@ -13,7 +13,7 @@ Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/f/flaky/flaky-%{version}.tar.gz
 # Source0-md5:	59d67ca4439d37936fb7368c140d23e7
 URL:		https://pypi.org/project/flaky/
-BuildRequires:	python3-modules >= 1:3.4
+BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools
 %if %{with tests}
 BuildRequires:	python3-genty
